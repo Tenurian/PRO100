@@ -1,12 +1,12 @@
-package pro100;
+package pieces;
 
 public enum PieceType {
-	King ("k", "King"),
-	Queen ("q", "Queen"),
-	Bishop ("b", "Bishop"),
-	Knight ("n", "Knight"),
-	Rook ("r", "Rook"),
-	Pawn ("p", "Pawn");
+	KING ("k", "King"),
+	QUEEN ("q", "Queen"),
+	BISHOP ("b", "Bishop"),
+	KNIGHT ("n", "Knight"),
+	ROOK ("r", "Rook"),
+	PEON ("p", "Peon");
 	private final String token;
 	private final String name;
 	private PieceType(String value, String name){

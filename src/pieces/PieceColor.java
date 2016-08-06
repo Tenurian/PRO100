@@ -1,8 +1,8 @@
-package pro100;
+package pieces;
 
 public enum PieceColor {
-	White ("white"),
-	Black ("black");
+	WHITE ("White"),
+	BLACK ("Black");
 	private final String v;
 	private PieceColor(String value){
 		v = value;

@@ -9,12 +9,21 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import pieces.Bishop;
+import pieces.ChessPiece;
+import pieces.King;
+import pieces.Knight;
+import pieces.Peon;
+import pieces.PieceColor;
+import pieces.Queen;
+import pieces.Rook;
+
 public class ChessFileReader {
 
 	private File file;
-	private ChessPiece[][] board;
-	private static final boolean verbal = false;
-
+//	private ChessPiece[][] board;
+	private boolean verbal = true;
+	public Board board;
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		String filename = "";
@@ -24,13 +33,19 @@ public class ChessFileReader {
 			if(scanLee.nextLine().equalsIgnoreCase("y")){
 				boolean run = true;
 				ArrayList<String> inputs = new ArrayList<String>();
+				ChessFileReader fileReader = new ChessFileReader();
+				System.out.println("Run the initializer? y/n");
+				if(scanLee.nextLine().equalsIgnoreCase("y")){
+					fileReader.board.initialize();
+				}
 				System.out.println("\nPlease input the values now.");
 				while(run){
 					String line = scanLee.nextLine();
+					line = line.toLowerCase();
 					if(line.length() != 0){
 						inputs.add(line);
 					} else {
-						new ChessFileReader().processLines(inputs.iterator());
+						fileReader.processLines(inputs.iterator());
 						run = false;
 					}
 				}
@@ -41,17 +56,18 @@ public class ChessFileReader {
 		} else {
 			filename = args[0];
 			ChessFileReader cf = new ChessFileReader(filename);
+			cf.board.initialize();
 			cf.processLines(cf.getLines());
 		}
 	}
-	
+
 	public ChessFileReader(){
-		board = new ChessPiece[8][8];
+		board = new Board();
 	}
 
 	public ChessFileReader(String chessFileName) {
 		file = new File(chessFileName);
-		board = new ChessPiece[8][8];
+		board = new Board();
 	}
 
 	public Iterator<String> getLines(){
@@ -104,50 +120,50 @@ public class ChessFileReader {
 			Matcher moveTwoMatcher  = Pattern.compile("([a-h][0-8])([a-h][0-8])([a-h][0-8])([a-h][0-8])").matcher(l);
 
 			if(placementMatcher.find()){
-				PieceType pt = null;
+				ChessPiece p;
 				switch(placementMatcher.group(1).charAt(0)){
 				case 'k':
-					pt = PieceType.King;
+					p = new King((placementMatcher.group(1).charAt(1)=='l'?PieceColor.WHITE:PieceColor.BLACK), board);
 					break;
 				case 'q':
-					pt = PieceType.Queen;
+					p = new Queen((placementMatcher.group(1).charAt(1)=='l'?PieceColor.WHITE:PieceColor.BLACK), board);
 					break;
 				case 'b':
-					pt = PieceType.Bishop;
+					p = new Bishop((placementMatcher.group(1).charAt(1)=='l'?PieceColor.WHITE:PieceColor.BLACK), board);
 					break;
 				case 'n':
-					pt = PieceType.Knight;
+					p = new Knight((placementMatcher.group(1).charAt(1)=='l'?PieceColor.WHITE:PieceColor.BLACK), board);
 					break;
 				case 'r':
-					pt = PieceType.Rook;
+					p = new Rook((placementMatcher.group(1).charAt(1)=='l'?PieceColor.WHITE:PieceColor.BLACK), board);
 					break;
 				case 'p':
-					pt = PieceType.Pawn;
+					p = new Peon((placementMatcher.group(1).charAt(1)=='l'?PieceColor.WHITE:PieceColor.BLACK), board);
 					break;
 				default:
+					p = null;
 					break;
 				}
-				ChessPiece p = new ChessPiece(pt, (placementMatcher.group(1).charAt(1)=='l'?PieceColor.White:PieceColor.Black));
 				System.out.println("Place a " + p.getPieceColor().toString() + " " + p.getPieceType().getName() + " on " + placementMatcher.group(2));
-				board["87654321".indexOf(placementMatcher.group(2).charAt(1))]["abcdefgh".indexOf(placementMatcher.group(2).charAt(0))] = p;
+				board.placePiece(p, new Location(placementMatcher.group(2)));
 			} else if(moveTwoMatcher.find()){
-				System.out.println("Move the piece at " + moveTwoMatcher.group(1) + " to " + moveTwoMatcher.group(2) + ", and move the piece at " + moveTwoMatcher.group(3) + " to " + moveTwoMatcher.group(4));
-				ChessPiece pieceOne = board["87654321".indexOf(moveTwoMatcher.group(1).charAt(1))]["abcdefgh".indexOf(moveTwoMatcher.group(1).charAt(0))];
-				ChessPiece pieceTwo = board["87654321".indexOf(moveTwoMatcher.group(3).charAt(1))]["abcdefgh".indexOf(moveTwoMatcher.group(3).charAt(0))];
-				//				String destOne = board["87654321".indexOf(moveTwoMatcher.group(2).charAt(1))]["abcdefgh".indexOf(moveTwoMatcher.group(2).charAt(0))];
-				//				String destTwo = board["87654321".indexOf(moveTwoMatcher.group(4).charAt(1))]["abcdefgh".indexOf(moveTwoMatcher.group(4).charAt(0))];
+				ChessPiece pieceOne = board.getPiece(new Location(moveTwoMatcher.group(1)));
+				ChessPiece pieceTwo = board.getPiece(new Location(moveTwoMatcher.group(3)));
 				if(pieceOne != null && pieceTwo != null){
-					board["87654321".indexOf(moveTwoMatcher.group(1).charAt(1))]["abcdefgh".indexOf(moveTwoMatcher.group(1).charAt(0))] = null;
-					board["87654321".indexOf(moveTwoMatcher.group(2).charAt(1))]["abcdefgh".indexOf(moveTwoMatcher.group(2).charAt(0))] = pieceOne;
-					board["87654321".indexOf(moveTwoMatcher.group(3).charAt(1))]["abcdefgh".indexOf(moveTwoMatcher.group(3).charAt(0))] = null;
-					board["87654321".indexOf(moveTwoMatcher.group(4).charAt(1))]["abcdefgh".indexOf(moveTwoMatcher.group(4).charAt(0))] = pieceTwo;
+					System.out.println("Move the " + pieceOne.toString() + " to " + moveTwoMatcher.group(2) + ", and move the  " + pieceTwo.toString() + " to " + moveTwoMatcher.group(4));
+					board.castle(pieceOne, pieceTwo, new Location(moveTwoMatcher.group(2)), new Location(moveTwoMatcher.group(4)));
+//					board.movePiece(pieceOne, new Location(moveTwoMatcher.group(2)));
+//					board.movePiece(pieceTwo, new Location(moveTwoMatcher.group(4)));
+				} else {
+					System.err.println("There are no pieces at one or both of the desired locations.");
 				}
 			} else if(moveOneMatcher.find()){
-				System.out.println("Move the piece at " + moveOneMatcher.group(1) + " to " + moveOneMatcher.group(2));
-				ChessPiece piece = board["87654321".indexOf(moveOneMatcher.group(1).charAt(1))]["abcdefgh".indexOf(moveOneMatcher.group(1).charAt(0))];
+				ChessPiece piece = board.getPiece(new Location(moveOneMatcher.group(1)));
 				if(piece != null){
-					board["87654321".indexOf(moveOneMatcher.group(1).charAt(1))]["abcdefgh".indexOf(moveOneMatcher.group(1).charAt(0))] = null;
-					board["87654321".indexOf(moveOneMatcher.group(2).charAt(1))]["abcdefgh".indexOf(moveOneMatcher.group(2).charAt(0))] = piece;
+					System.out.println("Move the " + piece.toString() + " to " + moveOneMatcher.group(2));
+					board.movePiece(piece, new Location(moveOneMatcher.group(2)));
+				} else {
+					System.err.println("There is no piece at the desired location");
 				}
 			} else {
 				System.err.println("Invalid Input: {"+l+"}");
@@ -157,18 +173,18 @@ public class ChessFileReader {
 			if(verbal){
 				System.out.println("     A   B   C   D   E   F   G   H");
 				System.out.println("   ╔═══╦═══╦═══╦═══╦═══╦═══╦═══╦═══╗");
-				for(int i = 0; i < board.length; i++){
+				for(int i = 0; i < board.getBoard().length; i++){
 					String boardline = " " + ("87654321".substring(i, i+1))+" ║";
-					for(int j = 0; j < board[i].length; j++){
-						if(board[i][j] == null){
+					for(int j = 0; j < board.getBoard()[i].length; j++){
+						if(board.getBoard()[i][j] == null){
 							boardline += "   ";
 						} else {
-							boardline += " " + board[i][j].getToken() + " ";
+							boardline += " " + board.getBoard()[i][j].getToken() + " ";
 						}
 						boardline += "║";
 					}
 					System.out.println(boardline);
-					System.out.println((i == board.length-1)?"   ╚═══╩═══╩═══╩═══╩═══╩═══╩═══╩═══╝":"   ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣");
+					System.out.println((i == board.getBoard().length-1)?"   ╚═══╩═══╩═══╩═══╩═══╩═══╩═══╩═══╝":"   ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣");
 				}
 			}
 		});
@@ -176,18 +192,18 @@ public class ChessFileReader {
 			System.out.println("\n");
 			System.out.println("     A   B   C   D   E   F   G   H");
 			System.out.println("   ╔═══╦═══╦═══╦═══╦═══╦═══╦═══╦═══╗");
-			for(int i = 0; i < board.length; i++){
+			for(int i = 0; i < board.getBoard().length; i++){
 				String boardline = " " + ("87654321".substring(i, i+1))+" ║";
-				for(int j = 0; j < board[i].length; j++){
-					if(board[i][j] == null){
+				for(int j = 0; j < board.getBoard()[i].length; j++){
+					if(board.getBoard()[i][j] == null){
 						boardline += "   ";
 					} else {
-						boardline += " " + board[i][j].getToken() + " ";
+						boardline += " " + board.getBoard()[i][j].getToken() + " ";
 					}
 					boardline += "║";
 				}
 				System.out.println(boardline);
-				System.out.println((i == board.length-1)?"   ╚═══╩═══╩═══╩═══╩═══╩═══╩═══╩═══╝":"   ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣");
+				System.out.println((i == board.getBoard().length-1)?"   ╚═══╩═══╩═══╩═══╩═══╩═══╩═══╩═══╝":"   ╠═══╬═══╬═══╬═══╬═══╬═══╬═══╬═══╣");
 			}
 		}
 	}
