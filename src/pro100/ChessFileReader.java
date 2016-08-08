@@ -32,7 +32,6 @@ public class ChessFileReader {
 			Scanner scanLee = new Scanner(System.in);
 			if(scanLee.nextLine().equalsIgnoreCase("y")){
 				boolean run = true;
-				ArrayList<String> inputs = new ArrayList<String>();
 				ChessFileReader fileReader = new ChessFileReader();
 				System.out.println("Run the initializer? y/n");
 				if(scanLee.nextLine().equalsIgnoreCase("y")){
@@ -40,12 +39,13 @@ public class ChessFileReader {
 				}
 				System.out.println("\nPlease input the values now.");
 				while(run){
+					ArrayList<String> inputs = new ArrayList<String>();
 					String line = scanLee.nextLine();
 					line = line.toLowerCase();
 					if(line.length() != 0){
 						inputs.add(line);
-					} else {
 						fileReader.processLines(inputs.iterator());
+					} else {
 						run = false;
 					}
 				}

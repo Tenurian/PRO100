@@ -8,7 +8,11 @@ public class King extends ChessPiece {
 	public King(PieceColor c, Board b){
 		super(PieceType.KING, c, b);
 	}
-
+	
+	public boolean isCheckMate(){
+		
+		return false;
+	}
 
 	@Override
 	public boolean isValidMove(Location destination) {

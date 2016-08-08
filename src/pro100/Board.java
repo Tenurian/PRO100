@@ -7,9 +7,9 @@ import pieces.*;
 public class Board {
 	private ChessPiece[][] board;
 	private PieceColor turn;
-	
+
 	private King whiteKing, blackKing;
-	
+
 	public Board(){
 		this.board = new ChessPiece[8][8];
 		this.turn = PieceColor.WHITE;
@@ -33,7 +33,7 @@ public class Board {
 		}
 		return pieces;
 	}
-	
+
 	public void castle(ChessPiece pieceOne, ChessPiece pieceTwo, Location destOne, Location destTwo){
 		if(pieceOne.getPieceColor() != pieceTwo.getPieceColor()){
 			System.out.println("Pieces must be same color to castle");
@@ -42,19 +42,20 @@ public class Board {
 				ChessPiece king = (pieceOne.getPieceType() == PieceType.KING)?pieceOne:pieceTwo;
 				ChessPiece rook = (pieceOne.getPieceType() == PieceType.KING)?pieceTwo:pieceOne;
 				if(king.getLocation().equals(new Location(((king.getPieceColor() == PieceColor.WHITE)?"e1":"e8"))) && 
-					rook.getLocation().equals(new Location(((king.getPieceColor() == PieceColor.WHITE)?"h1":"h8")))){
+						rook.getLocation().equals(new Location(((king.getPieceColor() == PieceColor.WHITE)?"h1":"h8")))){
 					if(getPiece(destOne) == null && getPiece(destTwo) == null){
 						if(getPiece(new Location(((king.getPieceColor() == PieceColor.WHITE)?"f2":"f7"))).getPieceType() != null &&
-							getPiece(new Location(((king.getPieceColor() == PieceColor.WHITE)?"g2":"g7"))).getPieceType() != null &&
-							getPiece(new Location(((king.getPieceColor() == PieceColor.WHITE)?"h2":"h7"))).getPieceType() != null){
-//							this.placePiece(king, new Location(((king.getPieceColor() == PieceColor.WHITE)?"g1":"g8")));
-//							this.placePiece(rook, new Location(((rook.getPieceColor() == PieceColor.WHITE)?"f1":"f8")));
+								getPiece(new Location(((king.getPieceColor() == PieceColor.WHITE)?"g2":"g7"))).getPieceType() != null &&
+								getPiece(new Location(((king.getPieceColor() == PieceColor.WHITE)?"h2":"h7"))).getPieceType() != null){
+							//							this.placePiece(king, new Location(((king.getPieceColor() == PieceColor.WHITE)?"g1":"g8")));
+							//							this.placePiece(rook, new Location(((rook.getPieceColor() == PieceColor.WHITE)?"f1":"f8")));
 							Location locOne = pieceOne.getLocation();
 							Location locTwo = pieceTwo.getLocation();
 							this.placePiece(pieceOne, destOne);
 							this.placePiece(pieceTwo, destTwo);
 							this.placePiece(null, locOne);
 							this.placePiece(null, locTwo);
+							turn = (turn == PieceColor.WHITE)?PieceColor.BLACK:PieceColor.WHITE;
 						} else {
 							System.out.println("Invalid Setup for Castling (3)");
 						}
@@ -69,19 +70,51 @@ public class Board {
 			}
 		}
 	}
-	
+
 	public PieceColor getTurn(){
 		return this.turn;
 	}
 
 	public void movePiece(ChessPiece piece, Location destination){
+		ChessPiece possibleEnemy = getPiece(destination);
 		if(piece.getPieceColor() == turn){
 			if(piece.isValidMove(destination)){
+				boolean kingInCheck = false;
+				Location oldLocation = piece.getLocation();
 				board[piece.getLocation().getRow()][piece.getLocation().getColumn()] = null;
 				piece.setLocation(destination);
 				board[destination.getRow()][destination.getColumn()] = piece;
-				turn = (turn == PieceColor.WHITE)? PieceColor.BLACK:PieceColor.WHITE;
-				System.out.println("It is now the "+ turn.toString() +" player's turn.");
+				for(ChessPiece p : getPieces((turn == PieceColor.WHITE)?PieceColor.BLACK:PieceColor.WHITE)){
+					switch(turn){
+					case BLACK:
+						if(p.isValidMove(blackKing.getLocation())){
+							kingInCheck = true;
+						}
+						break;
+					case WHITE:
+						if(p.isValidMove(whiteKing.getLocation())){
+							kingInCheck = true;
+						}
+						break;
+					}
+				}
+				if(kingInCheck){
+					//instead of setting it to null, set it to whatever was at the destination.
+					board[destination.getRow()][destination.getColumn()] = possibleEnemy;
+					board[oldLocation.getRow()][oldLocation.getColumn()] = piece;
+					piece.setLocation(oldLocation);
+					if(turn == PieceColor.WHITE){
+						System.out.println("Illegal move: The "+ whiteKing.toString() + " is still in check.");
+					} else {
+						System.out.println("Illegal move: The "+ blackKing.toString() + " is still in check.");
+					}
+				} else {
+					turn = (turn == PieceColor.WHITE)? PieceColor.BLACK:PieceColor.WHITE;
+					System.out.println("It is now the "+ turn.toString() +" player's turn.");
+				}
+
+
+
 				if(turn == PieceColor.WHITE){
 					getPieces(PieceColor.BLACK).iterator().forEachRemaining(p -> {
 						if(p.isValidMove(whiteKing.getLocation())){

@@ -18,12 +18,12 @@ public class Peon extends ChessPiece {
 			if(this.getPieceColor() == PieceColor.WHITE){
 				//going up; destination is less than or equal to location -1 or -2
 				if(destination.getRow() >= this.getLocation().getRow() - ((isFirstMove())?2:1) && destination.getRow() < this.getLocation().getRow()){
-					return true;
+					return board.getPiece(destination) == null;
 				}
 			} else {
 				//going down;
 				if(destination.getRow() <= this.getLocation().getRow() + ((isFirstMove())?2:1) && destination.getRow() > this.getLocation().getRow()){
-					return true;
+					return board.getPiece(destination) == null;
 				}
 			}
 		} else {
