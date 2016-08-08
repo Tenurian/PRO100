@@ -1,5 +1,7 @@
 package pro100;
 
+import java.util.ArrayList;
+
 public class Location{
 	private final int COL, ROW;
 	public Location(String location){
@@ -12,6 +14,24 @@ public class Location{
 	public int getRow(){
 		return this.ROW;
 	}
+	
+	public ArrayList<Location> getSurroundingLocations(){
+		ArrayList<Location> surrounding = new ArrayList<Location>();
+		for(int i = -1; i <= 1; i++){
+			for(int j = -1; j <= 1; j++){
+				try{
+					char col = "abcdefgh".charAt(COL + j);
+					char row = "87654321".charAt(ROW + i);
+					if(!new Location(col+""+row).equals(this)){
+						surrounding.add(new Location(col+""+row));
+					}
+				}catch (Exception e) {
+				}
+			}
+		}
+		return surrounding;
+	}
+	
 	@Override
 	public String toString() {
 		return "Location [ "+ "ABCDEFGH".charAt(COL) + "" + "87654321".charAt(ROW) +" (COL=" + COL + ", ROW=" + ROW + ")]";

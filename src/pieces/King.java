@@ -9,9 +9,50 @@ public class King extends ChessPiece {
 		super(PieceType.KING, c, b);
 	}
 	
-	public boolean isCheckMate(){
-		
+	public boolean isInCheck(){
+		for(ChessPiece p : board.getPieces(this.getPieceColor() == PieceColor.WHITE?PieceColor.BLACK:PieceColor.BLACK)){
+			if(p.isValidMove(this.getLocation())){
+				return true;
+			}
+		}
 		return false;
+	}
+	
+	public boolean isCheckMate(){
+		//is the king in check
+		boolean inCheck = this.isInCheck(), isSurrounded = true;
+		
+		
+		if(inCheck){
+			for(Location l : this.getLocation().getSurroundingLocations() ){
+				if(this.isValidMove(l)){
+					isSurrounded = false;
+					return false;
+				}
+			}
+			
+			if(isSurrounded){
+				for(ChessPiece p : board.getPieces(this.getPieceColor())){
+					Location origin = p.getLocation();
+					for(Location l : p.getValidLocations()){
+						board.getBoard()[origin.getRow()][origin.getColumn()] = null;
+						ChessPiece possibleEnemy = board.getBoard()[l.getRow()][l.getColumn()];
+						board.getBoard()[l.getRow()][l.getColumn()] = p;
+						if(this.isInCheck()){
+							board.getBoard()[l.getRow()][l.getColumn()] = possibleEnemy;
+							board.getBoard()[origin.getRow()][origin.getColumn()] = p;
+						} else {
+							return false;
+						}
+					}
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+		return true;
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package pieces;
 
+import java.util.ArrayList;
+
 import pro100.Board;
 import pro100.Location;
 
@@ -30,6 +32,20 @@ public abstract class ChessPiece {
 		return c;
 	}
 	public abstract boolean isValidMove(Location destination);
+	
+	public ArrayList<Location> getValidLocations(){
+		ArrayList<Location> validLocations = new ArrayList<Location>();
+		String cols = "abcdefgh";
+		String rows = "87654321";
+		for(int i = 0; i < board.getBoard().length; i++){
+			for(int j = 0; j < board.getBoard()[i].length; j++){
+				if(isValidMove(new Location(cols.charAt(j)+""+rows.charAt(i)))){
+					validLocations.add(new Location(cols.charAt(j)+""+rows.charAt(i)));
+				}
+			}
+		}
+		return validLocations;
+	}
 	
 	public Location getLocation() {
 		return location;

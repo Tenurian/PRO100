@@ -116,17 +116,21 @@ public class Board {
 
 
 				if(turn == PieceColor.WHITE){
-					getPieces(PieceColor.BLACK).iterator().forEachRemaining(p -> {
-						if(p.isValidMove(whiteKing.getLocation())){
-							System.out.println("The " + whiteKing.toString() + " is in check from the " + p.toString());
-						}
-					});
+					if(whiteKing.isInCheck()){
+						getPieces(PieceColor.BLACK).iterator().forEachRemaining(p -> {
+							if(p.isValidMove(whiteKing.getLocation())){
+								System.out.println("The " + whiteKing.toString() + " is in check from the " + p.toString());
+							}
+						});
+					}
 				} else {
-					getPieces(PieceColor.WHITE).iterator().forEachRemaining(p -> {
-						if(p.isValidMove(blackKing.getLocation())){
-							System.out.println("The " + blackKing.toString() + " is in check from the " + p.toString());
-						}
-					});
+					if(blackKing.isInCheck()){
+						getPieces(PieceColor.WHITE).iterator().forEachRemaining(p -> {
+							if(p.isValidMove(blackKing.getLocation())){
+								System.out.println("The " + blackKing.toString() + " is in check from the " + p.toString());
+							}
+						});
+					}
 				}
 			} else {
 				System.out.println("Cannot move the " + piece.toString() + " to " + destination.toString());
