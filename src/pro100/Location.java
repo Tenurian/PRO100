@@ -8,6 +8,12 @@ public class Location{
 		this.COL = "abcdefgh".indexOf(location.charAt(0));
 		this.ROW = "87654321".indexOf(location.charAt(1));
 	}
+	
+	public Location(int col, int row){
+		this.COL = col;
+		this.ROW = row;
+	}
+	
 	public int getColumn(){
 		return this.COL;
 	}

@@ -14,11 +14,9 @@ public abstract class ChessPiece {
 	private final PieceType p;
 	private final PieceColor c;
 	private Location location;
-	protected Board board;
-	public ChessPiece(PieceType p, PieceColor c, Board board) {
+	public ChessPiece(PieceType p, PieceColor c) {
 		this.p = p;
 		this.c = c;
-		this.board = board;
 	}
 	public String getToken(){
 		String token = this.getPieceType().getToken();
@@ -31,15 +29,15 @@ public abstract class ChessPiece {
 	public PieceColor getPieceColor() {
 		return c;
 	}
-	public abstract boolean isValidMove(Location destination);
+	public abstract boolean isValidMove(Location destination, Board board);
 	
-	public ArrayList<Location> getValidLocations(){
+	public ArrayList<Location> getValidLocations(Board board){
 		ArrayList<Location> validLocations = new ArrayList<Location>();
 		String cols = "abcdefgh";
 		String rows = "87654321";
 		for(int i = 0; i < board.getBoard().length; i++){
 			for(int j = 0; j < board.getBoard()[i].length; j++){
-				if(isValidMove(new Location(cols.charAt(j)+""+rows.charAt(i)))){
+				if(isValidMove(new Location(cols.charAt(j)+""+rows.charAt(i)), board)){
 					validLocations.add(new Location(cols.charAt(j)+""+rows.charAt(i)));
 				}
 			}

@@ -75,24 +75,25 @@ public class Board {
 		return this.turn;
 	}
 
-	public void movePiece(ChessPiece piece, Location destination){
+	public boolean movePiece(ChessPiece piece, Location destination){
 		ChessPiece possibleEnemy = getPiece(destination);
 		if(piece.getPieceColor() == turn){
-			if(piece.isValidMove(destination)){
+			if(piece.isValidMove(destination, this)){
 				boolean kingInCheck = false;
 				Location oldLocation = piece.getLocation();
 				board[piece.getLocation().getRow()][piece.getLocation().getColumn()] = null;
 				piece.setLocation(destination);
 				board[destination.getRow()][destination.getColumn()] = piece;
+				System.out.println(piece);
 				for(ChessPiece p : getPieces((turn == PieceColor.WHITE)?PieceColor.BLACK:PieceColor.WHITE)){
 					switch(turn){
 					case BLACK:
-						if(p.isValidMove(blackKing.getLocation())){
+						if(p.isValidMove(blackKing.getLocation(), this)){
 							kingInCheck = true;
 						}
 						break;
 					case WHITE:
-						if(p.isValidMove(whiteKing.getLocation())){
+						if(p.isValidMove(whiteKing.getLocation(), this)){
 							kingInCheck = true;
 						}
 						break;
@@ -116,20 +117,30 @@ public class Board {
 
 
 				if(turn == PieceColor.WHITE){
-					if(whiteKing.isInCheck()){
-						getPieces(PieceColor.BLACK).iterator().forEachRemaining(p -> {
-							if(p.isValidMove(whiteKing.getLocation())){
-								System.out.println("The " + whiteKing.toString() + " is in check from the " + p.toString());
-							}
-						});
+					if(whiteKing.isCheckMate(this)){
+						System.out.println("The "+whiteKing.toString() + " is in checkmate. Black Player Wins!");
+						return false;
+					} else {
+						if(whiteKing.isInCheck(this)){
+							getPieces(PieceColor.BLACK).iterator().forEachRemaining(p -> {
+								if(p.isValidMove(whiteKing.getLocation(), this)){
+									System.out.println("The " + whiteKing.toString() + " is in check from the " + p.toString());
+								}
+							});
+						} 
 					}
 				} else {
-					if(blackKing.isInCheck()){
-						getPieces(PieceColor.WHITE).iterator().forEachRemaining(p -> {
-							if(p.isValidMove(blackKing.getLocation())){
-								System.out.println("The " + blackKing.toString() + " is in check from the " + p.toString());
-							}
-						});
+					if(blackKing.isCheckMate(this)){
+						System.out.println("The "+blackKing.toString() + " is in checkmate. White Player Wins!");
+						return false;
+					} else {
+						if(blackKing.isInCheck(this)){
+							getPieces(PieceColor.WHITE).iterator().forEachRemaining(p -> {
+								if(p.isValidMove(blackKing.getLocation(), this)){
+									System.out.println("The " + blackKing.toString() + " is in check from the " + p.toString());
+								}
+							});
+						}
 					}
 				}
 			} else {
@@ -138,6 +149,7 @@ public class Board {
 		} else {
 			System.out.println("It is the "+ turn.toString() +" player's turn.");
 		}
+		return true;
 	}
 
 	public void placePiece(ChessPiece piece, Location loc){
@@ -172,42 +184,42 @@ public class Board {
 	}
 
 	public void initialize(){
-		placePiece(new Rook(PieceColor.WHITE, this), new Location("a1"));
-		placePiece(new Knight(PieceColor.WHITE, this), new Location("b1"));
-		placePiece(new Bishop(PieceColor.WHITE, this), new Location("c1"));
-		placePiece(new Queen(PieceColor.WHITE, this), new Location("d1"));
-		this.whiteKing = new King(PieceColor.WHITE, this);
+		placePiece(new Rook(PieceColor.WHITE), new Location("a1"));
+		placePiece(new Knight(PieceColor.WHITE), new Location("b1"));
+		placePiece(new Bishop(PieceColor.WHITE), new Location("c1"));
+		placePiece(new Queen(PieceColor.WHITE), new Location("d1"));
+		this.whiteKing = new King(PieceColor.WHITE);
 		placePiece(whiteKing, new Location("e1"));
-		placePiece(new Bishop(PieceColor.WHITE, this), new Location("f1"));
-		placePiece(new Knight(PieceColor.WHITE, this), new Location("g1"));
-		placePiece(new Rook(PieceColor.WHITE, this), new Location("h1"));
-		placePiece(new Peon(PieceColor.WHITE, this), new Location("a2"));
-		placePiece(new Peon(PieceColor.WHITE, this), new Location("b2"));
-		placePiece(new Peon(PieceColor.WHITE, this), new Location("c2"));
-		placePiece(new Peon(PieceColor.WHITE, this), new Location("d2"));
-		placePiece(new Peon(PieceColor.WHITE, this), new Location("e2"));
-		placePiece(new Peon(PieceColor.WHITE, this), new Location("f2"));
-		placePiece(new Peon(PieceColor.WHITE, this), new Location("g2"));
-		placePiece(new Peon(PieceColor.WHITE, this), new Location("h2"));
+		placePiece(new Bishop(PieceColor.WHITE), new Location("f1"));
+		placePiece(new Knight(PieceColor.WHITE), new Location("g1"));
+		placePiece(new Rook(PieceColor.WHITE), new Location("h1"));
+		placePiece(new Peon(PieceColor.WHITE), new Location("a2"));
+		placePiece(new Peon(PieceColor.WHITE), new Location("b2"));
+		placePiece(new Peon(PieceColor.WHITE), new Location("c2"));
+		placePiece(new Peon(PieceColor.WHITE), new Location("d2"));
+		placePiece(new Peon(PieceColor.WHITE), new Location("e2"));
+		placePiece(new Peon(PieceColor.WHITE), new Location("f2"));
+		placePiece(new Peon(PieceColor.WHITE), new Location("g2"));
+		placePiece(new Peon(PieceColor.WHITE), new Location("h2"));
 
 
-		placePiece(new Rook(PieceColor.BLACK, this), new Location("a8"));
-		placePiece(new Knight(PieceColor.BLACK, this), new Location("b8"));
-		placePiece(new Bishop(PieceColor.BLACK, this), new Location("c8"));
-		placePiece(new Queen(PieceColor.BLACK, this), new Location("d8"));
-		this.blackKing = new King(PieceColor.BLACK, this);
+		placePiece(new Rook(PieceColor.BLACK), new Location("a8"));
+		placePiece(new Knight(PieceColor.BLACK), new Location("b8"));
+		placePiece(new Bishop(PieceColor.BLACK), new Location("c8"));
+		placePiece(new Queen(PieceColor.BLACK), new Location("d8"));
+		this.blackKing = new King(PieceColor.BLACK);
 		placePiece(blackKing, new Location("e8"));
-		placePiece(new Bishop(PieceColor.BLACK, this), new Location("f8"));
-		placePiece(new Knight(PieceColor.BLACK, this), new Location("g8"));
-		placePiece(new Rook(PieceColor.BLACK, this), new Location("h8"));
-		placePiece(new Peon(PieceColor.BLACK, this), new Location("a7"));
-		placePiece(new Peon(PieceColor.BLACK, this), new Location("b7"));
-		placePiece(new Peon(PieceColor.BLACK, this), new Location("c7"));
-		placePiece(new Peon(PieceColor.BLACK, this), new Location("d7"));
-		placePiece(new Peon(PieceColor.BLACK, this), new Location("e7"));
-		placePiece(new Peon(PieceColor.BLACK, this), new Location("f7"));
-		placePiece(new Peon(PieceColor.BLACK, this), new Location("g7"));
-		placePiece(new Peon(PieceColor.BLACK, this), new Location("h7"));
+		placePiece(new Bishop(PieceColor.BLACK), new Location("f8"));
+		placePiece(new Knight(PieceColor.BLACK), new Location("g8"));
+		placePiece(new Rook(PieceColor.BLACK), new Location("h8"));
+		placePiece(new Peon(PieceColor.BLACK), new Location("a7"));
+		placePiece(new Peon(PieceColor.BLACK), new Location("b7"));
+		placePiece(new Peon(PieceColor.BLACK), new Location("c7"));
+		placePiece(new Peon(PieceColor.BLACK), new Location("d7"));
+		placePiece(new Peon(PieceColor.BLACK), new Location("e7"));
+		placePiece(new Peon(PieceColor.BLACK), new Location("f7"));
+		placePiece(new Peon(PieceColor.BLACK), new Location("g7"));
+		placePiece(new Peon(PieceColor.BLACK), new Location("h7"));
 		System.out.println(this.toString());
 	}
 }

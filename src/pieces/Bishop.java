@@ -5,13 +5,13 @@ import pro100.Location;
 
 public class Bishop extends ChessPiece {
 
-	public Bishop(PieceColor c, Board b) {
-		super(PieceType.BISHOP, c, b);
+	public Bishop(PieceColor c) {
+		super(PieceType.BISHOP, c);
 		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
-	public boolean isValidMove(Location destination) {
+	public boolean isValidMove(Location destination, Board board) {
 		if(destination == this.getLocation()){
 			return false;
 		}

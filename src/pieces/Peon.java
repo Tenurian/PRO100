@@ -4,12 +4,12 @@ import pro100.Board;
 import pro100.Location;
 
 public class Peon extends ChessPiece {
-	public Peon(PieceColor c, Board b) {
-		super(PieceType.PEON, c, b);
+	public Peon(PieceColor c) {
+		super(PieceType.PEON, c);
 	}
 
 	@Override
-	public boolean isValidMove(Location destination) {
+	public boolean isValidMove(Location destination, Board board) {
 		if(destination == this.getLocation()){
 			return false;
 		}

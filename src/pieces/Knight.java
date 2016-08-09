@@ -5,13 +5,13 @@ import pro100.Location;
 
 public class Knight extends ChessPiece {
 
-	public Knight(PieceColor c, Board b) {
-		super(PieceType.KNIGHT, c, b);
+	public Knight(PieceColor c) {
+		super(PieceType.KNIGHT, c);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public boolean isValidMove(Location destination) {
+	public boolean isValidMove(Location destination, Board board) {
 		if(destination == this.getLocation()){
 			return false;
 		}
