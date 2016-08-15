@@ -1,7 +1,4 @@
-package pieces;
-
-import pro100.Board;
-import pro100.Location;
+package pro100.Models;
 
 public class Rook extends ChessPiece {
 

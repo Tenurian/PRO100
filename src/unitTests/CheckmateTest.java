@@ -4,9 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import pieces.*;
-import pro100.Board;
-import pro100.Location;
+import pro100.Models.*;
 
 public class CheckmateTest {
 	

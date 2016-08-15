@@ -4,12 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import pieces.ChessPiece;
-import pieces.Knight;
-import pieces.Peon;
-import pieces.PieceColor;
-import pro100.Board;
-import pro100.Location;
+import pro100.Models.Board;
+import pro100.Models.ChessPiece;
+import pro100.Models.Knight;
+import pro100.Models.Location;
+import pro100.Models.Peon;
+import pro100.Models.PieceColor;
 
 public class KnightTest {
 

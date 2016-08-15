@@ -4,11 +4,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import pieces.ChessPiece;
-import pieces.PieceColor;
-import pieces.Rook;
-import pro100.Board;
-import pro100.Location;
+import pro100.Models.Board;
+import pro100.Models.ChessPiece;
+import pro100.Models.Location;
+import pro100.Models.PieceColor;
+import pro100.Models.Rook;
 
 public class RookTest {
 

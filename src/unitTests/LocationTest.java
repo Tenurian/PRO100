@@ -4,12 +4,12 @@ package unitTests;
 
 import org.junit.Test;
 
-import pro100.Location;
+import pro100.Models.Location;
 
 public class LocationTest {
 	@Test
 	public void test() {
-		System.out.println(new pro100.Board().toString());
+		System.out.println(new pro100.Models.Board().toString());
 		Location[] tests = {
 				new Location("a8"),
 				new Location("d8"),

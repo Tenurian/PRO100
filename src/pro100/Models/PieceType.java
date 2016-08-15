@@ -1,4 +1,4 @@
-package pieces;
+package pro100.Models;
 
 public enum PieceType {
 	KING ("k", "King"),

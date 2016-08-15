@@ -1,4 +1,4 @@
-package pro100;
+package pro100.Models;
 
 import java.util.ArrayList;
 

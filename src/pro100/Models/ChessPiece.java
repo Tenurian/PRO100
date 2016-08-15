@@ -1,9 +1,6 @@
-package pieces;
+package pro100.Models;
 
 import java.util.ArrayList;
-
-import pro100.Board;
-import pro100.Location;
 
 //make this abstract later
 public abstract class ChessPiece {
@@ -35,8 +32,8 @@ public abstract class ChessPiece {
 		ArrayList<Location> validLocations = new ArrayList<Location>();
 		String cols = "abcdefgh";
 		String rows = "87654321";
-		for(int i = 0; i < board.getBoard().length; i++){
-			for(int j = 0; j < board.getBoard()[i].length; j++){
+		for(int i = 0; i < board.toArray().length; i++){
+			for(int j = 0; j < board.toArray()[i].length; j++){
 				if(isValidMove(new Location(cols.charAt(j)+""+rows.charAt(i)), board)){
 					validLocations.add(new Location(cols.charAt(j)+""+rows.charAt(i)));
 				}

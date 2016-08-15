@@ -1,7 +1,4 @@
-package pieces;
-
-import pro100.Board;
-import pro100.Location;
+package pro100.Models;
 
 public class King extends ChessPiece {
 
@@ -35,19 +32,19 @@ public class King extends ChessPiece {
 				for(ChessPiece p : board.getPieces(this.getPieceColor())){
 					Location origin = p.getLocation();
 					for(Location l : p.getValidLocations(board)){
-						board.getBoard()[origin.getRow()][origin.getColumn()] = null;
-						ChessPiece possibleEnemy = board.getBoard()[l.getRow()][l.getColumn()];
-						board.getBoard()[l.getRow()][l.getColumn()] = p;
+						board.toArray()[origin.getRow()][origin.getColumn()] = null;
+						ChessPiece possibleEnemy = board.toArray()[l.getRow()][l.getColumn()];
+						board.toArray()[l.getRow()][l.getColumn()] = p;
 						if(this.isInCheck(board)){
-							board.getBoard()[l.getRow()][l.getColumn()] = possibleEnemy;
-							board.getBoard()[origin.getRow()][origin.getColumn()] = p;
+							board.toArray()[l.getRow()][l.getColumn()] = possibleEnemy;
+							board.toArray()[origin.getRow()][origin.getColumn()] = p;
 						} else {
-							board.getBoard()[l.getRow()][l.getColumn()] = possibleEnemy;
-							board.getBoard()[origin.getRow()][origin.getColumn()] = p;
+							board.toArray()[l.getRow()][l.getColumn()] = possibleEnemy;
+							board.toArray()[origin.getRow()][origin.getColumn()] = p;
 							return false;
 						}
-						board.getBoard()[l.getRow()][l.getColumn()] = possibleEnemy;
-						board.getBoard()[origin.getRow()][origin.getColumn()] = p;
+						board.toArray()[l.getRow()][l.getColumn()] = possibleEnemy;
+						board.toArray()[origin.getRow()][origin.getColumn()] = p;
 					}
 				}
 			} else {

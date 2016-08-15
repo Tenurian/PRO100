@@ -1,7 +1,4 @@
-package pieces;
-
-import pro100.Board;
-import pro100.Location;
+package pro100.Models;
 
 public class Bishop extends ChessPiece {
 
@@ -49,25 +46,25 @@ public class Bishop extends ChessPiece {
 						switch(d){
 						case NORTHEAST:
 							//-, +
-							if(board.getBoard()[this.getLocation().getRow() - i][this.getLocation().getColumn() + i] != null){
+							if(board.toArray()[this.getLocation().getRow() - i][this.getLocation().getColumn() + i] != null){
 								return false;
 							}
 							break;
 						case NORTHWEST:
 							//-, -
-							if(board.getBoard()[this.getLocation().getRow() - i][this.getLocation().getColumn() - i] != null){
+							if(board.toArray()[this.getLocation().getRow() - i][this.getLocation().getColumn() - i] != null){
 								return false;
 							}
 							break;
 						case SOUTHEAST:
 							//+, +
-							if(board.getBoard()[this.getLocation().getRow() + i][this.getLocation().getColumn() + i] != null){
+							if(board.toArray()[this.getLocation().getRow() + i][this.getLocation().getColumn() + i] != null){
 								return false;
 							}
 							break;
 						case SOUTHWEST:
 							//+, -
-							if(board.getBoard()[this.getLocation().getRow() + i][this.getLocation().getColumn() - i] != null){
+							if(board.toArray()[this.getLocation().getRow() + i][this.getLocation().getColumn() - i] != null){
 								return false;
 							}
 							break;
@@ -104,25 +101,25 @@ public class Bishop extends ChessPiece {
 					switch(d){
 					case NORTHEAST:
 						//-, +
-						if(board.getBoard()[this.getLocation().getRow() - i][this.getLocation().getColumn() + i] != null){
+						if(board.toArray()[this.getLocation().getRow() - i][this.getLocation().getColumn() + i] != null){
 							return false;
 						}
 						break;
 					case NORTHWEST:
 						//-, -
-						if(board.getBoard()[this.getLocation().getRow() - i][this.getLocation().getColumn() - i] != null){
+						if(board.toArray()[this.getLocation().getRow() - i][this.getLocation().getColumn() - i] != null){
 							return false;
 						}
 						break;
 					case SOUTHEAST:
 						//+, +
-						if(board.getBoard()[this.getLocation().getRow() + i][this.getLocation().getColumn() + i] != null){
+						if(board.toArray()[this.getLocation().getRow() + i][this.getLocation().getColumn() + i] != null){
 							return false;
 						}
 						break;
 					case SOUTHWEST:
 						//+, -
-						if(board.getBoard()[this.getLocation().getRow() + i][this.getLocation().getColumn() - i] != null){
+						if(board.toArray()[this.getLocation().getRow() + i][this.getLocation().getColumn() - i] != null){
 							return false;
 						}
 						break;

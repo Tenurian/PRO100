@@ -1,7 +1,4 @@
-package pieces;
-
-import pro100.Board;
-import pro100.Location;
+package pro100.Models;
 
 public class Queen extends ChessPiece {
 
@@ -117,25 +114,25 @@ public class Queen extends ChessPiece {
 						switch(d){
 						case NORTHEAST:
 							//-, +
-							if(board.getBoard()[getLocation().getRow() - i][getLocation().getColumn() + i] != null){
+							if(board.toArray()[getLocation().getRow() - i][getLocation().getColumn() + i] != null){
 								return false;
 							}
 							break;
 						case NORTHWEST:
 							//-, -
-							if(board.getBoard()[getLocation().getRow() - i][getLocation().getColumn() - i] != null){
+							if(board.toArray()[getLocation().getRow() - i][getLocation().getColumn() - i] != null){
 								return false;
 							}
 							break;
 						case SOUTHEAST:
 							//+, +
-							if(board.getBoard()[getLocation().getRow() + i][getLocation().getColumn() + i] != null){
+							if(board.toArray()[getLocation().getRow() + i][getLocation().getColumn() + i] != null){
 								return false;
 							}
 							break;
 						case SOUTHWEST:
 							//+, -
-							if(board.getBoard()[getLocation().getRow() + i][getLocation().getColumn() - i] != null){
+							if(board.toArray()[getLocation().getRow() + i][getLocation().getColumn() - i] != null){
 								return false;
 							}
 							break;
@@ -172,25 +169,25 @@ public class Queen extends ChessPiece {
 					switch(d){
 					case NORTHEAST:
 						//-, +
-						if(board.getBoard()[getLocation().getRow() - i][getLocation().getColumn() + i] != null){
+						if(board.toArray()[getLocation().getRow() - i][getLocation().getColumn() + i] != null){
 							return false;
 						}
 						break;
 					case NORTHWEST:
 						//-, -
-						if(board.getBoard()[getLocation().getRow() - i][getLocation().getColumn() - i] != null){
+						if(board.toArray()[getLocation().getRow() - i][getLocation().getColumn() - i] != null){
 							return false;
 						}
 						break;
 					case SOUTHEAST:
 						//+, +
-						if(board.getBoard()[getLocation().getRow() + i][getLocation().getColumn() + i] != null){
+						if(board.toArray()[getLocation().getRow() + i][getLocation().getColumn() + i] != null){
 							return false;
 						}
 						break;
 					case SOUTHWEST:
 						//+, -
-						if(board.getBoard()[getLocation().getRow() + i][getLocation().getColumn() - i] != null){
+						if(board.toArray()[getLocation().getRow() + i][getLocation().getColumn() - i] != null){
 							return false;
 						}
 						break;

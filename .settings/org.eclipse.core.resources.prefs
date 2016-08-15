@@ -1,5 +1,5 @@
 eclipse.preferences.version=1
-encoding//src/pro100/Board.java=UTF-8
-encoding//src/pro100/ChessFileReader.java=UTF-8
+encoding//src/pro100/Models/Board.java=UTF-8
+encoding//src/pro100/Views/ChessFileReader.java=UTF-8
 encoding//src/unitTests/PeonTest.java=UTF-8
 encoding/<project>=UTF-8
